@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Registration Form</title>
+<style>
+  body {
+    background: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  table {
+    margin: auto;
+    border: 5px groove #fff;
+    background: #222;
+    border-collapse: collapse;
+    width: 50%;
+  }
+  tr {
+    font-size: large;
+    background: cyan;
+    font-weight: bold;
+  }
+  td {
+    font-size: large;
+    font-style: italic;
+    padding: 10px;
+    border: 1px solid #000;
+  }
+  input {
+    font-size: large;
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+  }
+  input[readonly] {
+    background: #eee;
+    color: #333;
+  }
+  input[type="button"] {
+    cursor: pointer;
+  }
+</style>
+<script>
+  function calc() {
+    const form = document.forms[0];
+    const m = ['wt', 'cg', 'stm'].map(n => parseInt(form[n].value, 10));
+
+    if (m.some(isNaN)) {
+      alert("Enter valid numeric marks for all subjects.");
+      return;
+    }
+
+    const total = m.reduce((a,b) => a + b, 0);
+    const avg = total / m.length;
+
+    let result = '', grade = '';
+
+    if (avg >= 70 && m.every(mark => mark >= 40)) {
+      result = "Distinction"; grade = "A+";
+    } else if (avg >= 60 && avg < 70 && m.every(mark => mark >= 40)) {
+      result = "First class"; grade = "A";
+    } else if (avg >= 50 && avg < 60 && m.every(mark => mark >= 40)) {
+      result = "Second class"; grade = "B";
+    } else if (avg >= 40 && avg < 50 && m.every(mark => mark >= 40)) {
+      result = "Pass class"; grade = "C";
+    } else {
+      result = "Fail"; grade = "D";
+    }
+
+    form.total.value = total;
+    form.average.value = avg.toFixed(2);
+    form.result.value = result;
+    form.grade.value = grade;
+  }
+</script>
+</head>
+<body>
+<form>
+  <table>
+    <tr><td>Student Name</td><td><input type="text" name="studentName" /></td></tr>
+    <tr><td colspan="2" align="center">Subject Marks</td></tr>
+    <tr><td>Web Technologies</td><td><input type="number" name="wt" min="0" max="100" /></td></tr>
+    <tr><td>Computer Graphics</td><td><input type="number" name="cg" min="0" max="100" /></td></tr>
+    <tr><td>Software Testing Methodologies</td><td><input type="number" name="stm" min="0" max="100" /></td></tr>
+    <tr><td colspan="2" align="center"><input type="button" value="Calculate" onclick="calc()" /></td></tr>
+    <tr><td>Total</td><td><input type="text" name="total" readonly /></td></tr>
+    <tr><td>Average</td><td><input type="text" name="average" readonly /></td></tr>
+    <tr><td>Result</td><td><input type="text" name="result" readonly /></td></tr>
+    <tr><td>Grade</td><td><input type="text" name="grade" readonly /></td></tr>
+  </table>
+</form>
+</body>
+</html>
